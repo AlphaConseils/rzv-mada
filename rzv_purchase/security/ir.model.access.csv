@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rzv_purchase_rzv_purchase,rzv_purchase.rzv_purchase,model_rzv_purchase_rzv_purchase,base.group_user,1,1,1,1
