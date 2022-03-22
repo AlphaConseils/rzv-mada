@@ -8,9 +8,11 @@
                 <!-- find field description and add the field
                      new_field after it -->
                 <xpath expr="//field[@name='currency_id']" position="after">
-                    <field name="cif"/>
+
                   <field name="nif"/>
                   <field name="stat"/>
+                  <field name="cif"/>
+
                 </xpath>
             </field>
         </record>
