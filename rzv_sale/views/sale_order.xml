@@ -1,0 +1,64 @@
+<odoo>
+    <data>
+        <record id="inherited_sale_order_view_form" model="ir.ui.view">
+            <field name="name">inherited.sale_order.form.inherit.test</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <!-- find field description and add the field
+                     new_field after it -->
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[3]" position="after">
+
+                    <page string="Commission" name="order_lines" groups="rzv_base.group_direction_rzv">
+                        <group>
+                            <group>
+                                <field name="percentage_commission"/>
+                                <field name="commission"/>
+                            </group>
+
+
+                        </group>
+
+                    </page>
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_order_hide_from_group_level_1" model="ir.ui.view">
+            <field name="name">view_order_hide_from_group_level_1</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order"/>
+            <field name="groups_id" eval="[(6, 0, [ref('rzv_base.group_security_so_1') ])]"/>
+            <field name="arch" type="xml">
+                <!-- hide margin-->
+                <xpath expr="//label[@for='margin']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//div[hasclass('text-nowrap')]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='fiscal_position_id']]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+<!--        <record id = "fleet_rule_vehicle_visibility_user" model = "ir.rule">-->
+<!--           <field name = "name"> User can only see his / her vehicle </field>-->
+<!--           <field name = "model_id" ref = "purchase.model_purchase_order" />-->
+<!--           <field name = "groups" eval = "[(4, ref ('rzv_base.group_direction_rzv'))]" />-->
+<!--           <field name = "perm_read" eval = "True" />-->
+<!--           <field name = "perm_write" eval = "True" />-->
+<!--           <field name = "perm_create" eval = "True" />-->
+<!--           <field name = "perm_unlink" eval = "False" />-->
+<!--           <field name = "domain_force"> [('user_id', '=', user.id)] </field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>
