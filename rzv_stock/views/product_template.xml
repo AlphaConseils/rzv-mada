@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="inherited_product_template_view_form" model="ir.ui.view">
+            <field name="name">inherited.product_template.form.inherit.test</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <!-- find field description and add the field
+                     new_field after it -->
+                <xpath expr="//field[@name='barcode']" position="after">
+                  <field name="brand"/>
+                  <field name="sub_pcb"/>
+                  <field name="pcb"/>
+                  <field name="unit_per_box"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
