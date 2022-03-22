@@ -1,0 +1,20 @@
+<odoo>
+    <data noupdate="0">
+
+        <record id="group_direction_rzv" model="res.groups">
+            <field name="name">Direction</field>
+        </record>
+
+
+        <record id="group_b2b_sale_rzv" model="res.groups">
+            <field name="name">B2B sale</field>
+        </record>
+        <record id="group_gms_sale_rzv" model="res.groups">
+            <field name="name">GMS sale</field>
+        </record>
+        <record id="group_purchasing_manager_rzv" model="res.groups">
+            <field name="name">Purchase manager</field>
+        </record>
+
+    </data>
+</odoo>
