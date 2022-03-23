@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','rzv_base','sale','sale_margin','purchase'],
+    'depends': ['base','rzv_base','sale','sale_margin','purchase','hr'],
 
     # always loaded
     'data': [
@@ -28,6 +28,9 @@
         'views/views.xml',
         'views/templates.xml',
         'views/sale_order.xml',
+        'views/hr_employee.xml',
+        # 'report/quotation_report.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [

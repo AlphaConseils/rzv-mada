@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+    
+        <record id="hr_employee_inherited" model="ir.ui.view">
+            <field name="name">hr.employee.inherited</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//page[@name='hr_settings']" position="after">
+                    <page name="percentage_employee" string="Percentage commission" groups="rzv_base.group_direction_rzv">
+                        <group name="percentage_commission" string="Percentage commission">
+                            <group>
+                                <field name="percentage_commission"/>
+                                
+                            </group>
+                            
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    
+    </data>
+    
+</odoo>
