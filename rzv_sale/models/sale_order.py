@@ -10,7 +10,7 @@ class Sale_order(models.Model):
         required=False)
     commission = fields.Monetary(compute='_compute_total',)
 
-    @api.onchange('partner_id')
+    @api.depends('amount_total')
     def _compute_get_commission(self):
         # import pudb; pudb.set_trace()
 
