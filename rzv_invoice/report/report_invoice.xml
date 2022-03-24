@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<odoo>
+    <record id="invoice_rzv_report" model="ir.actions.report">
+        <field name="name">Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rzv_invoice.rzv_invoice_report</field>
+        <field name="report_file">rzv_invoice.rzv_invoice_report</field>
+        <field name="attachment_use" eval="True" />
+    </record>
+
+    <!-- get old  -->
+    <template id="rzv_invoice.rzv_invoice_report">
+
+        <t t-call="web.html_container">
+
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+
+                    <div class='page' style="font-size:14px; ">
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <div class="header_body">
+                            <div style="width: 100%;text-align:center;">
+                                <span>
+                                        Facture en Ariary
+                                </span>
+                                
+
+                            </div>
+
+                            <div style="width: 100%;text-align:right;">
+                                <div>
+                                    <b>
+                                        Client:
+                                        <span t-esc="o.partner_id.name" />
+                                    </b>
+
+                                </div>
+                                <div>
+                                    <span t-esc="o.partner_id.street" />
+                                    <span t-esc="o.partner_id.street2" />
+                                </div>
+                                <div>
+                                    NIF:
+                                    <span t-esc="o.partner_id.nif" />
+                                </div>
+                                <div>
+                                    STAT:
+                                    <span t-esc="o.partner_id.stat" />
+                                </div>
+                                <div>
+                                    CIF:
+                                    <span t-esc="o.partner_id.cif" />
+                                </div>
+                            </div>
+                            <div>
+                                <span>Facture n°</span>
+                                <span style="font-weight: bold;">
+                                    <span t-esc="o.name" />
+                                </span>
+                                <span style="float: right;">
+                                    <div style="width:250px;text-align:right">
+                                        <b>
+                                            <!-- TODO put method in account.move to set date in letter -->
+                                            
+                                            <span t-esc="o.convert_date(o.invoice_date)" />
+                                            <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                            <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                        </b>
+                                    </div>
+                                </span>
+                            </div>
+                            <div>
+                                <span>Origine</span>
+                                <span style="font-weight: bold;">
+                                    <span t-esc="o.invoice_origin" />
+                                </span>
+                                
+                            </div>
+                            <div>
+                                <span>Référence client</span>
+                                <span style="font-weight: bold;">
+                                    <!-- TODO change to ref client -->
+                                    <span t-esc="o.ref" />
+                                </span>
+                                
+                            </div>
+
+                            <div style="margin-left: 2px;margin-right: 2px;">
+                                <table style="width: 100%; border: 1px solid black;border-collapse: collapse; ">
+                                    <tbody>
+                                        <tr>
+
+                                            <td style="border: 1px solid;">Ligne n°</td>
+                                            <td style="border: 1px solid;">Réf</td>
+                                            <td style="border: 1px solid;">Designation</td>
+                                            <td style="border: 1px solid;">Unité</td>
+                                            <td style="border: 1px solid;">Quantité</td>
+                                            <td style="border: 1px solid;">PU HT (ar)</td>
+                                            <td style="border: 1px solid;">TVA</td>
+                                        </tr>
+                                        <t t-set="count" t-value="1" />
+                                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                            <tr>
+
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="count" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.product_tmpl_id.default_code" />
+
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.name" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.product_tmpl_id.uom_id.name" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <!-- TODO set here QTY of line -->
+                                                    <span t-esc="line.quantity" />
+                                                    <!-- <span t-esc="'{0:,.0f}'.format(round(o.amount_untaxed)).replace('.','%').replace(',',' ').replace('%',',')" style="word-break:break-all;"/> -->
+
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <t t-if="(o.amount_tax) &gt; 0">
+                                                        <span>20 %</span>
+                                                    </t>
+                                                    <!-- <span t-esc="o.tax_totals_json" /> -->
+                                                </td>
+                                                <t t-set="count" t-value="count + 1" />
+
+
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:20px;">
+                                <table style="width: 40%; margin-right: 0px;  margin-left: auto; border: 1px solid black;border-collapse: collapse; ">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid;">Montant taxable</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">NET HT</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+                                        <t t-if="(o.amount_tax) &gt; 0">
+                                            <tr>
+                                                <td style="border: 1px solid;">TVA 20%</td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                </td>
+                                            </tr>
+                                        </t>
+
+
+                                        <t t-if="(o.amount_tax) == 0">
+                                            <tr>
+                                                <td colspan="2" style="border: 1px solid; text-align:center">MONTANT EXONERE</td>
+                                            </tr>
+                                        </t>
+
+                                        <tr>
+                                            <td style="border: 1px solid;">NET A PAYER</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="width: 100%;text-align: right;">
+
+                                    <span style="text-transform: capitalize;">
+                                        <!-- <span t-esc="o.convert(round(o.amount_total),o.currency_id.name)[0]" /> -->
+                                        <!-- <span t-esc="o.num_to_word(o.amount_total)" /> <span>AR</span> -->
+                                        <span>
+                                            <t t-esc="o.currency_id.amount_to_text(o.amount_total)" />
+                                        </span>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <table style="border:1px solid;border-collapse: collapse; width: 50%">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" style="border: 1px solid; text-align: center;width:30%">
+                                                Conditions de vente</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Échéance</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.narration" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Montant</td>
+                                            <td style="border: 1px solid;">
+                                                NET A PAYER
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Mode de paiement :</td>
+                                            <td style="border: 1px solid;">
+                                                <!-- TODO Mode de paiement -->
+                                                <span t-esc="line.product_id.product_tmpl_id.default_code" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>
