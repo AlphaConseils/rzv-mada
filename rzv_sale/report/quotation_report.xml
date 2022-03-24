@@ -47,12 +47,14 @@
                                 <span style="font-weight: bold;">
                                     <span t-esc="o.name" />
                                 </span>
-                                <span style="float: right;word-wrap: break-word;">
-                                    <b>
-                                        <span t-esc="o.convert_date(o.date_order)" />
-                                        <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
-                                        <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
-                                    </b>
+                                <span style="float: right;">
+                                    <div style="width:250px;text-align:right">
+                                        <b>
+                                            <span t-esc="o.convert_date(o.date_order)" />
+                                            <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                            <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                        </b>
+                                    </div>
                                 </span>
                             </div>
 
