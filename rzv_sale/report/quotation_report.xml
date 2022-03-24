@@ -42,7 +42,13 @@
                             </div>
 
                             <div style="width: 100%;text-align:right;">
-                                <div><span t-esc="o.partner_id.name" /></div>
+                                <div>
+                                    <b>
+                                        Client:
+                                        <span t-esc="o.partner_id.name" />
+                                    </b>
+                                    
+                                </div>
                                 <div>
                                     <span t-esc="o.partner_id.street" /> <span t-esc="o.partner_id.street2" />
                                 </div>
@@ -107,7 +113,10 @@
                                                     
                                                 </td>
                                                 <td style="border: 1px solid;">
-                                                    <!-- <span t-esc="o.tax_totals_json" /> -->tva
+                                                    <t t-if="(o.amount_tax) &gt; 0">
+                                                        <span>20 %</span>
+                                                    </t>
+                                                    <!-- <span t-esc="o.tax_totals_json" /> -->
                                                 </td>
                                                 <t t-set="count" t-value="count + 1" />
                                             </t>
