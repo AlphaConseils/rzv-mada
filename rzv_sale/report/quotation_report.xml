@@ -9,59 +9,7 @@
         <field name="report_file">rzv_sale.rzv_quotation_report</field>
         <field name="attachment_use" eval="True" />
     </record>
-    <template id="external_layout_striped_test_header" inherit_id="web.external_layout_striped">
-        <xpath expr="//div[1]" position="replace">
-            <t t-foreach="docs" t-as="o">
-                
-
-                <div class="header">
-                    <table style="width:100%">
-                        <thead>
-                            <tr>
-                                <td style="width:20%">
-                                    <img t-if="company.logo" max-height="60px" t-att-src="image_data_uri(company.logo)" />
-                                </td>
-                                <td style="width:30%">
-                                    <table style="font-size:12px">
-                                        <tbody>
-                                            <tr>
-                                                <td>ENDISMAD SARL</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Bâtiment Y6, Z.I. Akoor’,</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Digue Andohatapenaka, Antananarivo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>NIF : 4001980185</td>
-                                            </tr>
-                                            <tr>
-                                                <td>STAT : 46900 41 2015 0 00372</td>
-                                            </tr>
-                                            <tr>
-                                                <td>CIF : 0009214/DGI-H DU 06/07/2020</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td style="text-align:center">
-
-                                    <img t-if="company.paper_store_img" style="max-height: 45px;" t-att-src="image_data_uri(company.paper_store_img)" />
-
-                                </td>
-                            </tr>
-                        </thead>
-                    </table>
-                    <!-- <div>
-                        <img t-if="company.logo" style="max-width: 150px; max-height: 300px;" t-att-src="image_data_uri(company.logo)" />
-                        
-                    </div> -->
-
-                </div>
-            </t>
-        </xpath>
-    </template>
+    <
     <template id="rzv_sale.rzv_quotation_report">
         
         <t t-call="web.html_container">
