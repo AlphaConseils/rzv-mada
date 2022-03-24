@@ -1,6 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 
 <odoo>
+    <record id="quotation_rzv" model="ir.actions.report">
+        <field name="name">Quotation / Command</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">rzv_sale.rzv_quotation_report</field>
+        <field name="report_file">rzv_sale.rzv_quotation_report</field>
+        <field name="attachment_use" eval="True" />
+    </record>
     <template id="rzv_sale.rzv_quotation_report">
         
         <t t-call="web.html_container">
