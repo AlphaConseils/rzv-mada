@@ -1,24 +1,33 @@
 <odoo>
     <data>
-<!--
-        <template id="listing">
-          <ul>
-            <li t-foreach="objects" t-as="object">
-              <a t-attf-href="#{ root }/objects/#{ object.id }">
-                <t t-esc="object.display_name"/>
-              </a>
-            </li>
-          </ul>
-        </template>
-        <template id="object">
-          <h1><t t-esc="object.display_name"/></h1>
-          <dl>
-            <t t-foreach="object._fields" t-as="field">
-              <dt><t t-esc="field"/></dt>
-              <dd><t t-esc="object[field]"/></dd>
-            </t>
-          </dl>
-        </template>
--->
+<!--        bordereau d expedition-->
+        <record id="reporting_shipping_note" model="ir.actions.report">
+            <field name="name">Shipping note </field>
+            <field name="model">stock.picking</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">rzv_stock.report_shipping_note</field>
+            <field name="report_file">rzv_stock.report_shipping_note</field>
+            <field name="attachment_use" eval="True"/>
+        </record>
+
+        <record id="report_shipping_note_paperformat_lowmargin" model="report.paperformat">
+            <field name="name">Paper format</field>
+            <field name="default" eval="True" />
+            <field name="format">A4</field>
+            <field name="page_height">0</field>
+            <field name="page_width">0</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">2.5</field>
+            <field name="margin_right">4</field>
+            <field name="header_line" eval="False" />
+            <field name="header_spacing">100</field>
+            <field name="dpi">300</field>
+        </record>
+
+<!--        <record id="rzv_stock.reporting_shipping_note" model="ir.actions.report">-->
+<!--            <field name="paperformat_id" ref="rzv_stock.report_shipping_note_paperformat_lowmargin" />-->
+<!--        </record>-->
     </data>
 </odoo>

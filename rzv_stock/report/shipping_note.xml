@@ -1,0 +1,104 @@
+<odoo>
+    <data>
+        <template id="layout_rest">
+            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-call="web.address_layout" />
+                <t t-raw="0" />
+            </div>
+        </template>
+        <template id="report_shipping_note">
+
+<!--            <t t-call="rzv_stock.layout_rest">-->
+<!--                <t t-call="web.html_container">-->
+<!--                    <t t-foreach="docs" t-as="o">-->
+<!--                        <style>-->
+
+<!--                        </style>-->
+<!--                        <t t-if="not company">-->
+<!--                            &lt;!&ndash; Multicompany &ndash;&gt;-->
+<!--                            <t t-if="company_id">-->
+<!--                                <t t-set="company" t-value="company_id" />-->
+<!--                            </t>-->
+<!--                            <t t-elif="o and 'company_id' in o">-->
+<!--                                <t t-set="company" t-value="o.company_id.sudo()" />-->
+<!--                            </t>-->
+<!--                            <t t-else="else">-->
+<!--                                <t t-set="company" t-value="res_company" />-->
+<!--                            </t>-->
+<!--                        </t>-->
+<!--                        -->
+<!--                        -->
+<!--                        <t t-call="rzv_stock.main_loan_client" />    -->
+<!--                        -->
+<!--                        -->
+<!--                        <t t-call="rzv_stock.external_layout_footer_shipping_note" />-->
+
+<!--                    </t>-->
+<!--                    -->
+<!--                </t>-->
+
+<!--            </t>-->
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="o">
+					<t t-call="web.external_layout">
+						<div class="page">
+							<h2>Report title</h2>
+							<p>This object's name is <span t-field="o.name"/></p>
+						</div>
+					</t>
+				</t>
+			</t>
+        </template>
+
+
+        <template id="main_loan_client">
+			<div class='page'>
+				<h1>test</h1>
+				<table>
+					<tbody>
+					  <tr>
+						<td colspan="5">Colis</td>
+					  </tr>
+					  <tr>
+						<td>N° de ligne</td>
+						<td>Designation</td>
+						<td>Ref</td>
+						<td>Quantités</td>
+						<td>Commentaires</td>
+					  </tr>
+					  <tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					  </tr>
+					  <tr>
+						<td>Colis</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					  </tr>
+					  <tr>
+						<td></td>
+						<td></td>
+						<td>Total Colis</td>
+						<td></td>
+						<td></td>
+					  </tr>
+					</tbody>
+				</table>
+
+			</div>
+
+        </template>
+
+		<template id="rzv_stock.external_layout_footer_shipping_note">
+                <div class='footer' >
+                    <div class="text-center">
+                    </div>
+                </div>
+        </template>
+    </data>
+</odoo>
