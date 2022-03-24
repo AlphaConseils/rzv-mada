@@ -28,9 +28,17 @@
                         <br/>
                         <div class="header_body" >
                             <div style="width: 100%;text-align:center;">
-                                <span>
-                                    DEVIS/COMMANDE en Ariary
-                                </span>
+                                <t t-if="(o.state) == 'draft'">
+                                    <span>
+                                        DEVIS en Ariary
+                                    </span>
+                                </t>
+                                <t t-if="(o.state) == 'sale'">
+                                    <span>
+                                        COMMANDE en Ariary
+                                    </span>
+                                </t>
+                                
                             </div>
 
                             <div style="width: 100%;text-align:right;">
