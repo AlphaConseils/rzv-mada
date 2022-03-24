@@ -82,10 +82,10 @@
                                             <td style="border: 1px solid;">PU HT (ar)</td>
                                             <td style="border: 1px solid;">TVA</td>
                                         </tr>
+                                        <t t-set="count" t-value="1" />
+                                        <t t-foreach="o.order_line" t-as="line">
                                         <tr>
-                                            <t t-set="count" t-value="1" />
 
-                                            <t t-foreach="o.order_line" t-as="line">
                                                 <td style="border: 1px solid;">
                                                     <span t-esc="count" />
                                                 </td>
@@ -116,10 +116,10 @@
                                                     <!-- <span t-esc="o.tax_totals_json" /> -->
                                                 </td>
                                                 <t t-set="count" t-value="count + 1" />
-                                            </t>
-
-
-                                        </tr>
+                                                
+                                                
+                                            </tr>
+                                        </t>
                                     </tbody>
                                 </table>
                             </div>
