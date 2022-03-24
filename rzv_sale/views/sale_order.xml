@@ -48,16 +48,7 @@
                 </xpath>
             </field>
         </record>
-<!--        <record id = "fleet_rule_vehicle_visibility_user" model = "ir.rule">-->
-<!--           <field name = "name"> User can only see his / her vehicle </field>-->
-<!--           <field name = "model_id" ref = "purchase.model_purchase_order" />-->
-<!--           <field name = "groups" eval = "[(4, ref ('rzv_base.group_direction_rzv'))]" />-->
-<!--           <field name = "perm_read" eval = "True" />-->
-<!--           <field name = "perm_write" eval = "True" />-->
-<!--           <field name = "perm_create" eval = "True" />-->
-<!--           <field name = "perm_unlink" eval = "False" />-->
-<!--           <field name = "domain_force"> [('user_id', '=', user.id)] </field>-->
-<!--        </record>-->
+
 
 
     </data>

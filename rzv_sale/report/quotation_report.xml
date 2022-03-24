@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<odoo>
+    <template id="rzv_sale.rzv_quotation_report">
+        
+        <t t-call="web.html_container">
+            <xpath expr="//div[@class='header']" position="replace">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="not o" t-set="o" t-value="doc" />
+                    <!-- ####odoo defaults#### -->
+                    <t t-if="not company">
+                        <!-- Multicompany -->
+                        <t t-if="company_id">
+                            <t t-set="company" t-value="company_id" />
+                        </t>
+                        <t t-elif="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id.sudo()" />
+                        </t>
+                        <t t-else="else">
+                            <t t-set="company" t-value="res_company" />
+                        </t>
+                    </t>
+
+                    <div class="header" >
+                        <table style="width:100%">
+                            <thead>
+                                <tr>
+                                    <td style="width:20%">
+                                        <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" />
+                                    </td>
+                                    <td style="width:30%">
+                                        <table style="font-size:12px">
+                                            <tbody>
+                                                <tr>
+                                                    <td>ENDISMAD SARL</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Bâtiment Y6, Z.I. Akoor’,</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Digue Andohatapenaka, Antananarivo</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>NIF : 4001980185</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>STAT : 46900 41 2015 0 00372</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CIF : 0009214/DGI-H DU 06/07/2020</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                    <td style="text-align:center">
+
+                                        <img t-if="company.paper_store_img" style="max-height: 45px;" t-att-src="image_data_uri(company.paper_store_img)" />
+
+                                    </td>
+                                </tr>
+                            </thead>
+                        </table>
+                        <!-- <div>
+                        <img t-if="company.logo" style="max-width: 150px; max-height: 300px;" t-att-src="image_data_uri(company.logo)" />
+                        
+                    </div> -->
+
+                    </div>
+                </t>
+            </xpath>
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    
+                    <div class='page' style="font-size:14px; ">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div class="header_body" >
+                            <div style="width: 100%;text-align:center;">
+                                <span>
+                                    DEVIS/COMMANDE en Ariary
+                                </span>
+                            </div>
+
+                            <div style="width: 100%;text-align:right;">
+                                <div><span t-esc="o.partner_id.name" /></div>
+                                <div>
+                                    <span t-esc="o.partner_id.street" /> <span t-esc="o.partner_id.street2" />
+                                </div>
+                                <div>NIF: <span t-esc="o.partner_id.nif" /></div>
+                                <div>STAT: <span t-esc="o.partner_id.stat" /></div>
+                                <div>CIF: <span t-esc="o.partner_id.cif" /></div>
+                            </div>
+                            <div>
+                                <span>Commande / Devis n°</span>
+                                <span style="font-weight: bold;">
+                                    <span t-esc="o.name" />
+                                </span>
+                                <span style="float: right;">
+                                    <b>
+                                        <span t-esc="o.convert_date(o.date_order)" />
+                                        <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                        <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
+                                    </b>
+                                </span>
+                            </div>
+
+                            <div style="margin-left: 2px;margin-right: 2px;">
+                                <table style="width: 100%; border: 1px solid black;border-collapse: collapse; ">
+                                    <tbody>
+                                        <tr>
+
+                                            <td style="border: 1px solid;">Ligne n°</td>
+                                            <td style="border: 1px solid;">Réf</td>
+                                            <td style="border: 1px solid;">Designation</td>
+                                            <td style="border: 1px solid;">Unité</td>
+                                            <td style="border: 1px solid;">Quantité</td>
+                                            <td style="border: 1px solid;">PU HT (ar)</td>
+                                            <td style="border: 1px solid;">TVA</td>
+                                        </tr>
+                                        <tr>
+                                            <t t-set="count" t-value="1" />
+
+                                            <t t-foreach="o.order_line" t-as="line">
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="count" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.product_tmpl_id.default_code" />
+
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.name" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_id.product_tmpl_id.uom_id.name" />
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.product_uom_qty" />
+                                                    <!-- <span t-esc="'{0:,.0f}'.format(round(o.amount_untaxed)).replace('.','%').replace(',',' ').replace('%',',')" style="word-break:break-all;"/> -->
+
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <span t-esc="line.price_subtotal"
+                                                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                    
+                                                </td>
+                                                <td style="border: 1px solid;">
+                                                    <!-- <span t-esc="o.tax_totals_json" /> -->tva
+                                                </td>
+                                                <t t-set="count" t-value="count + 1" />
+                                            </t>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:20px;">
+                                <table
+                                    style="width: 40%; margin-right: 0px;  margin-left: auto; border: 1px solid black;border-collapse: collapse; ">
+                                    <tbody>
+                                        <tr>
+                                            <td style="border: 1px solid;">Montant taxable</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">NET HT</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        <t t-if="(o.amount_tax) &gt; 0">
+                                            <tr>
+                                                <td style="border: 1px solid;">TVA 20%</td>
+                                                <td style="border: 1px solid;"><span t-esc="o.amount_tax"
+                                                        t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        
+                                        <t t-if="(o.amount_tax) == 0">
+                                            <tr>
+                                                <td colspan="2" style="border: 1px solid; text-align:center">MONTANT EXONERE</td>
+                                            </tr>
+                                        </t>
+
+                                        <tr>
+                                            <td style="border: 1px solid;">NET A PAYER</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="o.amount_total"
+                                                    t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div style="width: 100%;text-align: right;">
+
+                                    <span style="text-transform: capitalize;">
+                                        <!-- <span t-esc="o.convert(round(o.amount_total),o.currency_id.name)[0]" /> -->
+                                        <span t-esc="o.num_to_word(o.amount_total)" /> <span>AR</span>
+
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <table style="border:1px solid;border-collapse: collapse;">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" style="border: 1px solid; text-align: center;">
+                                                Conditions de vente</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Échéance</td>
+                                            <td style="border: 1px solid;">100% à la commande</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Validité de l'offre</td>
+                                            <td style="border: 1px solid;">15 jours, dans la limite des stocks
+                                                disponibles</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Délai de livraison</td>
+                                            <td style="border: 1px solid;">15 jours</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border: 1px solid;">Mode de paiement :</td>
+                                            <td style="border: 1px solid;">CHEQUE ou VIREMENT, à votre
+                                                convenance</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+
+</odoo>

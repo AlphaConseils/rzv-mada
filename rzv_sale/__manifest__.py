@@ -29,7 +29,7 @@
         'views/templates.xml',
         'views/sale_order.xml',
         'views/hr_employee.xml',
-        # 'report/quotation_report.xml',
+        'report/quotation_report.xml',
 
     ],
     # only loaded in demonstration mode
