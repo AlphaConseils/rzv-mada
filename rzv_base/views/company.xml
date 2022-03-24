@@ -9,9 +9,14 @@
                      new_field after it -->
                 <xpath expr="//field[@name='currency_id']" position="after">
 
-                  <field name="nif"/>
-                  <field name="stat"/>
-                  <field name="cif"/>
+                    <field name="nif"/>
+                    <field name="stat"/>
+                    <field name="cif"/>
+
+                </xpath>
+                <xpath expr="//field[@name='favicon']" position="after">
+
+                    <field name="paper_store_img"/>
 
                 </xpath>
             </field>

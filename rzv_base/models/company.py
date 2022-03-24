@@ -6,3 +6,5 @@ class Company(models.Model):
     nif=fields.Char("NIF",company_dependent=True)
     cif = fields.Char("CIF", company_dependent=True)
     stat=fields.Char("STAT",company_dependent=True)
+
+    paper_store_img = fields.Binary(string="Paper store image",  )

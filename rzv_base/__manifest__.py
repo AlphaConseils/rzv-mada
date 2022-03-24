@@ -28,6 +28,7 @@
         'views/views.xml',
         'views/company.xml',
         'views/templates.xml',
+        'views/external_layout_base.xml',
         'views/groups/groups.xml',
     ],
     # only loaded in demonstration mode
