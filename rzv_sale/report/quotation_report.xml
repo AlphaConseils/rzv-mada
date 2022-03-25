@@ -286,6 +286,11 @@
                 <div class="footer o_standard_footer" style="border-top: 1px solid black;">
                     <div class="row text-center">
                         <div class="col col-12 text-center">
+                            <div>
+                                <span t-esc="company.phone" />
+                                <span t-esc="company.website" />
+
+                            </div>
                             <ul class="list-inline">
                                 <li class="list-inline-item">Page:</li>
                                 <li class="list-inline-item">
