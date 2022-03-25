@@ -139,7 +139,10 @@
                                     <b>
                                         <!-- TODO put method in account.move to set date in letter -->
 
-                                        <span t-esc="o.convert_date(o.invoice_date)" />
+                                        <t t-if="(o.date_order) ">
+                                            <span t-esc="o.convert_date(o.date_order)" />
+
+                                        </t>
                                         <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
                                         <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
                                     </b>

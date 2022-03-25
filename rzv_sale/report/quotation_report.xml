@@ -9,6 +9,7 @@
         <field name="report_file">rzv_sale.rzv_quotation_report</field>
         <field name="attachment_use" eval="True" />
     </record>
+    
     <record id="paperformat_sale_summary_report" model="report.paperformat">
         <field name="name">Sale Summary</field>
         <field name="default" eval="False" />
