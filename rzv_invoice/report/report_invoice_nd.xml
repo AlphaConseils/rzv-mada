@@ -9,6 +9,13 @@
         <field name="report_file">rzv_invoice.rzv_invoice_report_nd</field>
         <field name="attachment_use" eval="True" />
     </record>
+    <template id="external_layout_striped_test_header" inherit_id="web.external_layout_striped">    
+        <xpath expr="//div[1]" position="replace">
+        
+        
+        
+        </xpath>
+    </template>
 
     <!-- get old  -->
     <template id="rzv_invoice.rzv_invoice_report_nd">
@@ -203,7 +210,6 @@
                                         <tr>
                                             <td style="border: 1px solid;">Échéance</td>
                                             <td style="border: 1px solid;">
-                                                <!-- <span t-esc="o.narration" /> -->
                                                 <span t-esc="o.get_echeance_nd(o.invoice_origin)" />
 
 

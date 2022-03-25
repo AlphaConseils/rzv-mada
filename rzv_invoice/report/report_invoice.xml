@@ -205,7 +205,8 @@
                                         <tr>
                                             <td style="border: 1px solid;">Échéance</td>
                                             <td style="border: 1px solid;">
-                                                <span t-esc="o.narration" />
+                                                <span t-esc="o.get_echeance_nd(o.invoice_origin)" />
+
                                             </td>
                                         </tr>
                                         <tr>
