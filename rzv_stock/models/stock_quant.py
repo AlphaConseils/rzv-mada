@@ -17,6 +17,6 @@ class Stock_quant(models.Model):
     def _box_management(self):
         if self.box_per_product:
             bm=self.inventory_quantity_auto_apply/self.box_per_product
-        self.box=bm
+            self.box=bm
     
     # product_id = fields.Many2one('res.partner, string='Partner', related='order_id.partner_id')
