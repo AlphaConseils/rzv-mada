@@ -38,6 +38,7 @@
         # ],
         'web.assets_qweb': [
             "rzv_point_of_sale/static/src/xml/custom_print.xml",
+            "rzv_point_of_sale/static/src/xml/custom_point_of_sale.xml",
         ],
     },
 }
