@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','rzv_base'],
+    'depends': ['base','rzv_base','point_of_sale'],
 
     # always loaded
     'data': [
@@ -32,4 +32,12 @@
     'demo': [
         'demo/demo.xml',
     ],'license': 'LGPL-3',
+    'assets': {
+        # 'point_of_sale.assets': [
+        #     'custom_pos_receipt/static/src/js/pos_model.js',
+        # ],
+        'web.assets_qweb': [
+            "rzv_point_of_sale/static/src/xml/custom_print.xml",
+        ],
+    },
 }
