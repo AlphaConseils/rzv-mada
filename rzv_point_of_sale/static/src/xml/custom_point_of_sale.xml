@@ -24,7 +24,7 @@
                                 <div>
                                     <t t-esc="tax.name" />
                                     :
-                                    <t t-esc="env.pos.format_currency(tax.amount)" />
+                                    <t t-esc="env.pos.format_currency(tax.amount)" /> 
                                 </div>
                             </t>
                         </div>

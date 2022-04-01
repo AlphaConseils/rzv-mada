@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data>
+    
+        <record id="point_of_sale.pos_config_menu_action_product_pricelist" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('rzv_base.group_direction_rzv')])]" />
+        </record>
+        <record id="point_of_sale.menu_point_rep" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6, 0, [ref('rzv_base.group_direction_rzv')])]" />
+        </record>
+    
+    </data>
+    
+</odoo>
