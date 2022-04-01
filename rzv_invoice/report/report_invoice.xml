@@ -60,7 +60,10 @@
                                     <table style="font-size:12px">
                                         <tbody>
                                             <tr>
-                                                <td>ENDISMAD SARL</td>
+                                                <b>
+                                                    <td>ENDISMAD SARL</td>
+
+                                                </b>
                                             </tr>
                                             <tr>
                                                 <td>Bâtiment Y6, Z.I. Akoor’,</td>
@@ -98,8 +101,10 @@
                     <div class="header_body">
                         <div style="width: 100%;text-align:center;">
                             <span>
-                                        Facture en Ariary
-                                </span>
+                                <b>
+                                    Facture en Ariary
+                                </b>
+                            </span>
 
 
                         </div>
@@ -136,7 +141,6 @@
                             </span>
                             <span style="float: right;">
                                 <div style="width:250px;text-align:right">
-                                    <b>
                                         <!-- TODO put method in account.move to set date in letter -->
 
                                         <t t-if="(o.invoice_date) ">
@@ -145,7 +149,6 @@
                                         </t>
                                         <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
                                         <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
-                                    </b>
                                 </div>
                             </span>
                         </div>
@@ -167,6 +170,8 @@
 
                         <div style="margin-left: 2px;margin-right: 2px;">
                             <table style="width: 100%; border: 1px solid black;border-collapse: collapse; ">
+                                <t t-set="sum_with_tva" t-value="0" />
+                                <t t-set="sum_without_tva" t-value="0" />
                                 <tbody>
                                     <tr>
 
@@ -206,10 +211,13 @@
 
                                             </td>
                                             <td style="border: 1px solid;">
-                                                <t t-if="(o.amount_tax) &gt; 0">
+                                                <t t-if="(line.tax_ids)">
                                                     <span>20 %</span>
+                                                    <t t-set="sum_with_tva" t-value="sum_with_tva + line.price_subtotal" />
                                                 </t>
-                                                <!-- <span t-esc="o.tax_totals_json" /> -->
+                                                <t t-else="">
+                                                    <t t-set="sum_without_tva" t-value="sum_without_tva + line.price_subtotal" />
+                                                </t>
                                             </td>
                                             <t t-set="count" t-value="count + 1" />
 
@@ -222,12 +230,14 @@
                         <div style="margin-top:20px;">
                             <table style="width: 40%; margin-right: 0px;  margin-left: auto; border: 1px solid black;border-collapse: collapse; ">
                                 <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid;">Montant taxable</td>
-                                        <td style="border: 1px solid;">
-                                            <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
-                                        </td>
-                                    </tr>
+                                    <t t-if="(sum_with_tva) ">
+                                        <tr>
+                                            <td style="border: 1px solid;">Montant taxable</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="sum_with_tva" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+                                    </t>
                                     <tr>
                                         <td style="border: 1px solid;">NET HT</td>
                                         <td style="border: 1px solid;">
@@ -244,9 +254,14 @@
                                     </t>
 
 
-                                    <t t-if="(o.amount_tax) == 0">
+                                    <t t-if="(sum_without_tva)">
                                         <tr>
-                                            <td colspan="2" style="border: 1px solid; text-align:center">MONTANT EXONERE</td>
+                                            <td style="border: 1px solid;">
+                                                MONTANT EXONERE
+                                            </td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="sum_without_tva" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
                                         </tr>
                                     </t>
 
@@ -278,14 +293,15 @@
                                                 Conditions de vente</td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Échéance</td>
+                                        <td style="border: 1px solid;">Échéance :</td>
                                         <td style="border: 1px solid;">
                                             <span t-esc="o.get_echeance_nd(o.invoice_origin)" />
+
 
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Montant</td>
+                                        <td style="border: 1px solid;">Montant:</td>
                                         <td style="border: 1px solid;">
                                                 NET A PAYER
                                             </td>
@@ -294,7 +310,7 @@
                                         <td style="border: 1px solid;">Mode de paiement :</td>
                                         <td style="border: 1px solid;">
                                             <!-- TODO Mode de paiement -->
-                                            <span t-esc="line.product_id.product_tmpl_id.default_code" />
+                                            <span t-esc="o.payment_reference" />
                                         </td>
                                     </tr>
                                 </tbody>
