@@ -59,7 +59,14 @@
                                     <table style="font-size:12px">
                                         <tbody>
                                             <tr>
-                                                <td>ENDISMAD SARL</td>
+                                                <td>
+                                                    <strong>
+
+                                                        <span>
+                                                            ENDISMAD SARL
+                                                        </span>
+                                                    </strong>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>Bâtiment Y6, Z.I. Akoor’,</td>
@@ -98,13 +105,19 @@
                         <div style="width: 100%;text-align:center;">
                             <t t-if="(o.state) == 'draft'">
                                 <span>
-                                            DEVIS en Ariary
-                                        </span>
+                                    <b>
+
+                                        DEVIS en Ariary
+                                    </b>
+                                </span>
                             </t>
                             <t t-if="(o.state) == 'sale'">
                                 <span>
-                                            COMMANDE en Ariary
-                                        </span>
+                                    <b>
+                                        COMMANDE en Ariary
+
+                                    </b>
+                                </span>
                             </t>
     
                         </div>
@@ -112,9 +125,9 @@
                         <div style="width: 100%;text-align:right;">
                             <div>
                                 <b>
-                                    Client:
-                                    <span t-esc="o.partner_id.name" />
+                                    <span>Client:</span><br/>
                                 </b>
+                                <span t-esc="o.partner_id.name" />
     
                             </div>
                             <div>
@@ -141,11 +154,9 @@
                             </span>
                             <span style="float: right;">
                                 <div style="width:250px;text-align:right">
-                                    <b>
                                         <span t-esc="o.convert_date(o.date_order)" />
                                         <!-- <span t-field="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
                                         <!-- <span t-esc="o.date_order" t-options='{"format": "dd/MM/yyyy"}' /> -->
-                                    </b>
                                 </div>
                             </span>
                         </div>
@@ -153,6 +164,9 @@
                         <div style="margin-left: 2px;margin-right: 2px;">
                             <table style="width: 100%; border: 1px solid black;border-collapse: collapse; ">
                                 <tbody>
+                                    <t t-set="sum_with_tva" t-value="0" />
+                                    <t t-set="sum_without_tva" t-value="0" />
+
                                     <tr>
     
                                         <td style="border: 1px solid;">Ligne n°</td>
@@ -190,8 +204,12 @@
     
                                             </td>
                                             <td style="border: 1px solid;">
-                                                <t t-if="(o.amount_tax) &gt; 0">
+                                                <t t-if="(line.price_tax) ">
+                                                    <t t-set="sum_with_tva" t-value="sum_with_tva + line.price_subtotal" />
                                                     <span>20 %</span>
+                                                </t>
+                                                <t t-else="">
+                                                    <t t-set="sum_without_tva" t-value="sum_without_tva + line.price_subtotal" />
                                                 </t>
                                                 <!-- <span t-esc="o.tax_totals_json" /> -->
                                             </td>
@@ -206,31 +224,38 @@
                         <div style="margin-top:20px;">
                             <table style="width: 40%; margin-right: 0px;  margin-left: auto; border: 1px solid black;border-collapse: collapse; ">
                                 <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid;">Montant taxable</td>
-                                        <td style="border: 1px solid;">
-                                            <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
-                                        </td>
-                                    </tr>
+                                    <t t-if="(sum_with_tva) ">
+                                        <tr>
+                                            <td style="border: 1px solid;">Montant taxable</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="sum_with_tva" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
+                                        </tr>
+
+                                    </t>
                                     <tr>
                                         <td style="border: 1px solid;">NET HT</td>
                                         <td style="border: 1px solid;">
                                             <span t-esc="o.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
                                         </td>
                                     </tr>
-                                    <t t-if="(o.amount_tax) &gt; 0">
+                                    <tr>
+                                        <td style="border: 1px solid;">TVA 20%</td>
+                                        <td style="border: 1px solid;">
+                                            <span t-esc="o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                        </td>
+                                    </tr>
+                                    
+    
+    
+                                    <t t-if="(sum_without_tva)">
                                         <tr>
-                                            <td style="border: 1px solid;">TVA 20%</td>
-                                            <td style="border: 1px solid;">
-                                                <span t-esc="o.amount_tax" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            <td  style="border: 1px solid;">
+                                                MONTANT EXONERE
                                             </td>
-                                        </tr>
-                                    </t>
-    
-    
-                                    <t t-if="(o.amount_tax) == 0">
-                                        <tr>
-                                            <td colspan="2" style="border: 1px solid; text-align:center">MONTANT EXONERE</td>
+                                            <td style="border: 1px solid;">
+                                                <span t-esc="sum_without_tva" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            </td>
                                         </tr>
                                     </t>
     
@@ -262,20 +287,20 @@
                                                     Conditions de vente</td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Échéance</td>
+                                        <td style="border: 1px solid;">Échéance:</td>
                                         <td style="border: 1px solid;">100% à la commande</td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Validité de l'offre</td>
+                                        <td style="border: 1px solid; white-space: nowrap;">Validité de l'offre:</td>
                                         <td style="border: 1px solid;">15 jours, dans la limite des stocks
                                                     disponibles</td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Délai de livraison</td>
+                                        <td style="border: 1px solid; white-space: nowrap;">Délai de livraison:</td>
                                         <td style="border: 1px solid;">15 jours</td>
                                     </tr>
                                     <tr>
-                                        <td style="border: 1px solid;">Mode de paiement :</td>
+                                        <td style="border: 1px solid; white-space: nowrap;">Mode de paiement :</td>
                                         <td style="border: 1px solid;">CHEQUE ou VIREMENT, à votre
                                                     convenance</td>
                                     </tr>
