@@ -61,8 +61,11 @@
                                         <tbody>
                                             <tr>
                                                 <b>
-                                                    <td>ENDISMAD SARL</td>
-
+                                                    <td>
+                                                        <b>
+                                                            ENDISMAD SARL
+                                                        </b>
+                                                    </td>
                                                 </b>
                                             </tr>
                                             <tr>
@@ -213,10 +216,10 @@
                                             <td style="border: 1px solid;">
                                                 <t t-if="(line.tax_ids)">
                                                     <span>20 %</span>
-                                                    <t t-set="sum_with_tva" t-value="sum_with_tva + line.price_subtotal" />
+                                                    <t t-set="sum_with_tva" t-value="(sum_with_tva + line.price_subtotal)*line.quantity" />
                                                 </t>
                                                 <t t-else="">
-                                                    <t t-set="sum_without_tva" t-value="sum_without_tva + line.price_subtotal" />
+                                                    <t t-set="sum_without_tva" t-value="(sum_without_tva + line.price_subtotal)*line.quantity" />
                                                 </t>
                                             </td>
                                             <t t-set="count" t-value="count + 1" />
@@ -295,7 +298,15 @@
                                     <tr>
                                         <td style="border: 1px solid;">Échéance :</td>
                                         <td style="border: 1px solid;">
-                                            <span t-esc="o.get_echeance_nd(o.invoice_origin)" />
+                                            <t t-if="o.invoice_payment_term_id">
+                                                <t t-esc="o.invoice_payment_term_id.name" />
+                                            </t>
+                                            <t t-else="">
+                                                <t t-esc="o.invoice_date_due"/>
+                                            </t>
+
+
+                                            <!-- <span t-esc="o.get_echeance_nd(o.invoice_origin)" /> -->
 
 
                                         </td>
@@ -303,8 +314,9 @@
                                     <tr>
                                         <td style="border: 1px solid;">Montant:</td>
                                         <td style="border: 1px solid;">
-                                                NET A PAYER
-                                            </td>
+                                            <t t-set="amount" t-value="sum_without_tva +sum_with_tva" />
+                                            <t t-esc="amount"/>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td style="border: 1px solid;">Mode de paiement :</td>
