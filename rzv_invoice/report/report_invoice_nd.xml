@@ -156,7 +156,9 @@
                                                 <span t-esc="line.product_id.name" />
                                             </td>
                                             <td style="border: 1px solid;">
-                                                <span t-esc="line.product_id.product_tmpl_id.uom_id.name" />
+                                                <!-- <span t-esc="line.product_id.product_tmpl_id.uom_id.name" /> -->
+                                                <span t-esc="line.product_uom_id.name" />
+
                                             </td>
                                             <td style="border: 1px solid;">
                                                 <!-- TODO set here QTY of line -->
