@@ -2,7 +2,7 @@
 
 <odoo>
     <record id="quotation_rzv" model="ir.actions.report">
-        <field name="name">Quotation / Command</field>
+        <field name="name">Devis / Commande</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">rzv_sale.rzv_quotation_report</field>
@@ -194,7 +194,7 @@
                                                 <span t-esc="line.product_id.name" />
                                             </td>
                                             <td style="border: 1px solid;">
-                                                <span t-esc="line.product_id.product_tmpl_id.uom_id.name" />
+                                                <span t-esc="line.product_uom.name" />
                                             </td>
                                             <td style="border: 1px solid;">
                                                 <span t-esc="line.product_uom_qty" />
