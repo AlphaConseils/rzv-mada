@@ -236,7 +236,7 @@
                                     <tr>
                                         <td style="border: 1px solid;">Montant:</td>
                                         <td style="border: 1px solid;">
-                                            <span t-esc="sum_without_tva" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                            <span t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
 
                                             </td>
                                     </tr>
