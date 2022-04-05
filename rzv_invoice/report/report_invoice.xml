@@ -8,6 +8,8 @@
         <field name="report_name">rzv_invoice.rzv_invoice_report</field>
         <field name="report_file">rzv_invoice.rzv_invoice_report</field>
         <field name="attachment_use" eval="True" />
+        <field name="binding_model_id" ref="model_account_move" />
+
     </record>
     <record id="paperformat_invoice_summary_report" model="report.paperformat">
         <field name="name">Sale Summary</field>
@@ -116,8 +118,9 @@
                             <div>
                                 <b>
                                     Client:
-                                    <span t-esc="o.partner_id.name" />
+                                    <br/>
                                 </b>
+                                <span t-esc="o.partner_id.name" />
 
                             </div>
                             <div>
@@ -210,16 +213,16 @@
 
                                             </td>
                                             <td style="border: 1px solid;">
-                                                <span t-esc="line.price_subtotal" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
+                                                <span t-esc="line.price_unit" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
 
                                             </td>
                                             <td style="border: 1px solid;">
                                                 <t t-if="(line.tax_ids)">
                                                     <span>20 %</span>
-                                                    <t t-set="sum_with_tva" t-value="(sum_with_tva + line.price_subtotal)*line.quantity" />
+                                                    <t t-set="sum_with_tva" t-value="(sum_with_tva + line.price_unit)*line.quantity" />
                                                 </t>
                                                 <t t-else="">
-                                                    <t t-set="sum_without_tva" t-value="(sum_without_tva + line.price_subtotal)*line.quantity" />
+                                                    <t t-set="sum_without_tva" t-value="(sum_without_tva + line.price_unit)*line.quantity" />
                                                 </t>
                                             </td>
                                             <t t-set="count" t-value="count + 1" />
@@ -315,7 +318,7 @@
                                         <td style="border: 1px solid;">Montant:</td>
                                         <td style="border: 1px solid;">
                                             <t t-set="amount" t-value="sum_without_tva +sum_with_tva" />
-                                            <t t-esc="amount"/>
+                                            <t t-esc="o.amount_total" t-options="{'widget': 'monetary', 'display_currency': res_company.currency_id}" />
                                         </td>
                                     </tr>
                                     <tr>
