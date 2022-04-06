@@ -29,6 +29,7 @@
         'views/templates.xml',
         'views/sale_order.xml',
         'views/hr_employee.xml',
+        # 'views/security.xml',
         'report/quotation_report.xml',
         'report/hide_report_menu.xml',
 
