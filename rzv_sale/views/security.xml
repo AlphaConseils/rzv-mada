@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <!-- TODO each user can only see his own SO  -->
+
+        <record id="each_customer_see_own_sale_order" model="ir.rule">
+
+            <field name="name">Each user see his own PO</field>
+
+            <field name="model_id" ref="sale.model_sale_order" />
+
+            <field name="global" eval="False" />
+
+            <field name="groups" eval="[(4, ref('base.group_user'))]" />
+
+            <field name="perm_read" eval="True" />
+
+            <field name="perm_write" eval="True" />
+
+            <field name="perm_create" eval="False" />
+
+            <field name="perm_unlink" eval="False" />
+
+            <field name="domain_force"> ['|',
+               ('user_id','=',user.id),
+               ('user_id','=',False)
+            ] </field>
+
+        </record>
+        <record id="po_rule_for_admin" model="ir.rule">
+            <field name="name">SO rules for admin</field>
+            <field ref="sale.model_sale_order" name="model_id" />
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('rzv_base.group_direction_rzv'))]" />
+        </record>
+    </data>
+</odoo>
