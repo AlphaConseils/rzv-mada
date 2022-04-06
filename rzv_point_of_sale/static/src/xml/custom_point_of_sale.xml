@@ -68,7 +68,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="section-inventory" t-if="productInfo.warehouses.length > 0">
+                    <!-- TODO hide section stock or inventory in POS // demande rayane -->
+                    <!-- <div class="section-inventory" t-if="productInfo.warehouses.length > 0">
                         <div class="section-title">
                             <span>
                                 Inventory
@@ -97,7 +98,7 @@
                                 </t>
                             </table>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="section-supplier" t-if="productInfo.suppliers.length > 0">
                         <div class="section-title">
                             <span>Replenishment</span>
