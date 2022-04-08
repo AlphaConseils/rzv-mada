@@ -29,7 +29,9 @@
         # 'views/templates.xml',
         'views/product_template.xml',
         'views/stock_quant.xml',
-        # 'report/shipping_note.xml',
+        'views/stock_picking.xml',
+        # report here
+        'report/shipping_note.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

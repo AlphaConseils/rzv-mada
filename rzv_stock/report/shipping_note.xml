@@ -1,104 +1,239 @@
+<?xml version='1.0' encoding='utf-8'?>
+
 <odoo>
-    <data>
-        <template id="layout_rest">
-            <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                <t t-call="web.address_layout" />
-                <t t-raw="0" />
-            </div>
-        </template>
-        <template id="report_shipping_note">
+	<record id="picking_rzv" model="ir.actions.report">
+		<field name="name">Bordereau d'expedition</field>
+		<field name="model">stock.picking</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">rzv_stock.rzv_shipping_note_report</field>
+		<field name="report_file">rzv_stock.rzv_shipping_note_report</field>
+		<field name="attachment_use" eval="True" />
+		<!-- <field name="binding_model_id" ref="model_stock_picking" /> -->
+	</record>
 
-<!--            <t t-call="rzv_stock.layout_rest">-->
-<!--                <t t-call="web.html_container">-->
-<!--                    <t t-foreach="docs" t-as="o">-->
-<!--                        <style>-->
+	<record id="paperformat_sale_summary_report" model="report.paperformat">
+		<field name="name">Sale Summary</field>
+		<field name="default" eval="False" />
+		<field name="format">A5</field>
+		<field name="page_width">0</field>
+		<field name="page_width">0</field>
+		<field name="orientation">Landscape</field>
+		<field name="margin_top">10</field>
+		<field name="margin_bottom">28</field>
+		<field name="margin_right">7</field>
+		<field name="margin_left">7</field>
+		<field name="header_line" eval="False" />
+		<field name="header_spacing">5</field>
+		<field name="dpi">90</field>
+	</record>
 
-<!--                        </style>-->
-<!--                        <t t-if="not company">-->
-<!--                            &lt;!&ndash; Multicompany &ndash;&gt;-->
-<!--                            <t t-if="company_id">-->
-<!--                                <t t-set="company" t-value="company_id" />-->
-<!--                            </t>-->
-<!--                            <t t-elif="o and 'company_id' in o">-->
-<!--                                <t t-set="company" t-value="o.company_id.sudo()" />-->
-<!--                            </t>-->
-<!--                            <t t-else="else">-->
-<!--                                <t t-set="company" t-value="res_company" />-->
-<!--                            </t>-->
-<!--                        </t>-->
-<!--                        -->
-<!--                        -->
-<!--                        <t t-call="rzv_stock.main_loan_client" />    -->
-<!--                        -->
-<!--                        -->
-<!--                        <t t-call="rzv_stock.external_layout_footer_shipping_note" />-->
+	<record id="rzv_stock.picking_rzv" model="ir.actions.report">
+		<field name="paperformat_id" ref="rzv_stock.paperformat_sale_summary_report" />
+	</record>
 
-<!--                    </t>-->
-<!--                    -->
-<!--                </t>-->
-
-<!--            </t>-->
-			<t t-call="web.html_container">
-				<t t-foreach="docs" t-as="o">
-					<t t-call="web.external_layout">
-						<div class="page">
-							<h2>Report title</h2>
-							<p>This object's name is <span t-field="o.name"/></p>
-						</div>
+	<!-- get old  -->
+	<template id="rzv_shipping_note_report">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-if="not o" t-set="o" t-value="doc" />
+				<!-- ####odoo defaults#### -->
+				<t t-if="not company">
+					<!-- Multicompany -->
+					<t t-if="company_id">
+						<t t-set="company" t-value="company_id" />
+					</t>
+					<t t-elif="o and 'company_id' in o">
+						<t t-set="company" t-value="o.company_id.sudo()" />
+					</t>
+					<t t-else="else">
+						<t t-set="company" t-value="res_company" />
 					</t>
 				</t>
+				<div class="header">
+					<!-- TODO here if header later -->
+				</div>
+				<div class="article mt0 o_report_layout_standard" style="font-size:12px">
+					<br />
+					<br />
+					
+					<div style="text-align:center">
+						<span>
+							BORDEREAU D'EXPEDITION
+						</span>
+
+					</div>
+					<div style="width:100%;">
+						<div>
+							<span>Date</span>
+						</div>
+						<div style="  margin-left: 200px">
+							<table style="width:80%; ">
+								<thead>
+									<tr>
+										<th style="width:20%">Expediteur :</th>
+										<th>ENDISMAD SARL - 032 03 464 03</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Destinataire</td>
+										<td>
+											<span>
+
+												<t t-esc="o.partner_id.name"/>
+											</span>
+											<span>
+
+												<t t-esc="o.partner_id.city"/>
+											</span>
+											<span>
+
+												<t t-esc="o.partner_id.mobile"/>
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td>Transporteur :</td>
+										<td>
+											<t t-esc="o.transporter" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<table style="width:100%;border-collapse:collapse;">
+						<tbody>
+							
+							<tr>
+								<td style="border:1px solid">N de ligne</td>
+								<td style="border:1px solid">Designation</td>
+								<td style="border:1px solid">Ref</td>
+								<td style="border:1px solid">Quantités</td>
+								<td style="border:1px solid">Commentaire</td>
+							</tr>
+							<t t-if="o.has_packages" name="has_packages">
+								<t t-set="packages" t-value="o.move_line_ids.mapped('result_package_id')" />
+								<t t-foreach="packages" t-as="package">
+									<t t-set="count_colis" t-value="0"/>
+									<!-- this retrieve package name -->
+									<t t-call="rzv_stock.stock_report_get_package_name" />
+
+									<t t-set="package_move_lines" t-value="o.move_line_ids.filtered(lambda l: l.result_package_id == package)" />
+									<!-- If printing lots/serial numbers => keep products in original lines -->
+									<t t-if="has_serial_number">
+										<tr  t-foreach="package_move_lines" t-as="move_line">
+											<t t-call="stock.stock_report_delivery_has_serial_move_line" />
+										</tr>
+									</t>
+									<!-- If not printing lots/serial numbers => merge lines with same product+description+uom -->
+									<t t-else="">
+										<t t-set="aggregated_lines" t-value="package_move_lines._get_aggregated_product_quantities(strict=True)" />
+										<!-- show the product in package -->
+										<tr >
+											<t t-call="rzv_stock.stock_report_delivery_aggregated_move_lines_inherit" />
+											<t t-set="count_colis" t-value="count_colis+1" />
+										</tr>
+									</t>
+								</t>
+								<!-- Make sure we do another section for package-less products if they exist -->
+								<t t-set="move_lines" t-value="o.move_line_ids.filtered(lambda l: not l.result_package_id)" />
+								<t t-if="move_lines" name="no_package_move_lines">
+									<t t-call="stock.stock_report_delivery_no_package_section_line" name="no_package_section" />
+									<t t-if="has_serial_number">
+										<tr t-foreach="move_lines" t-as="move_line">
+											<t t-call="stock.stock_report_delivery_has_serial_move_line" />
+										</tr>
+									</t>
+									<t t-else="">
+										<t t-set="aggregated_lines" t-value="move_lines._get_aggregated_product_quantities()" />
+										<t t-if="aggregated_lines">
+											<tr>
+
+												<t t-call="rzv_stock.stock_report_delivery_aggregated_move_lines_inherit" />
+											</tr>
+										</t>
+									</t>
+								</t>
+							</t>
+							<tr>
+								<td ></td>
+								<td ></td>
+								<td style="border:1px solid">Total Colis</td>
+								<td style="border:1px solid">
+									<t t-esc="count_colis" />
+								</td>
+								<td ></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="footer o_standard_footer" style="border-top: 1px solid black;">
+					<div class="row text-center">
+						<div class="col col-12 text-center">
+							<div>
+								<span t-esc="company.phone" />
+								<span t-esc="company.website" />
+
+							</div>
+							<ul class="list-inline">
+								<li class="list-inline-item">Page:</li>
+								<li class="list-inline-item">
+									<span class="page" />
+								</li>
+								<li class="list-inline-item">/</li>
+								<li class="list-inline-item">
+									<span class="topage" />
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
 			</t>
-        </template>
+
+		</t>
+	</template>
+	<!-- TODO get package name here -->
+	<template id="stock_report_get_package_name">
+		<tr t-att-class="'bg-200 font-weight-bold o_line_section'">
+			<td style="border:1px solid" colspan="99" name="package_info">
+				<span t-field="package.name" />
+			</td>
+		</tr>
+	</template>
+
+	<template id="stock_report_delivery_aggregated_move_lines_inherit">
+		<tr t-foreach="aggregated_lines" t-as="line">
+			<t t-set="count_line" t-value="0"/>
+			<td style="border:1px solid">
+				<t t-set="count_line" t-value="count_line+1"/>
+				<t t-esc="count_line"/>
+			</td>
+			<td style="border:1px solid">
+				<span t-esc="aggregated_lines[line]['name']" />
+				<!-- <p t-if="aggregated_lines[line]['description']">
+					<span t-esc="aggregated_lines[line]['description']" />
+				</p> -->
+			</td>
+			<!-- <td style="border:1px solid" class="text-center" name="move_line_aggregated_qty_ordered">
+				<span t-esc="aggregated_lines[line]['qty_ordered']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}" />
+				<span t-esc="aggregated_lines[line]['product_uom']" />
+			</td> -->
+			<td style="border:1px solid">
+				<span t-esc="o.get_prod_id(aggregated_lines[line]['product'])" />
+			</td>
+			<td style="border:1px solid" class="text-center" name="move_line_aggregated_qty_done">
+				<t t-if="aggregated_lines[line]['qty_done']">
+					<span t-esc="aggregated_lines[line]['qty_done']" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit of Measure'}" />
+					<span t-esc="aggregated_lines[line]['product_uom']" />
+				</t>
+			</td>
+			<td style="border:1px solid">
+
+			</td>
+		</tr>
+	</template>
 
 
-        <template id="main_loan_client">
-			<div class='page'>
-				<h1>test</h1>
-				<table>
-					<tbody>
-					  <tr>
-						<td colspan="5">Colis</td>
-					  </tr>
-					  <tr>
-						<td>N° de ligne</td>
-						<td>Designation</td>
-						<td>Ref</td>
-						<td>Quantités</td>
-						<td>Commentaires</td>
-					  </tr>
-					  <tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					  </tr>
-					  <tr>
-						<td>Colis</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					  </tr>
-					  <tr>
-						<td></td>
-						<td></td>
-						<td>Total Colis</td>
-						<td></td>
-						<td></td>
-					  </tr>
-					</tbody>
-				</table>
-
-			</div>
-
-        </template>
-
-		<template id="rzv_stock.external_layout_footer_shipping_note">
-                <div class='footer' >
-                    <div class="text-center">
-                    </div>
-                </div>
-        </template>
-    </data>
 </odoo>
