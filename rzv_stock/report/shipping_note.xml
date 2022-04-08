@@ -156,16 +156,63 @@
 									</t>
 								</t>
 							</t>
-							<tr>
-								<td ></td>
-								<td ></td>
-								<td style="border:1px solid">Total Colis</td>
-								<td style="border:1px solid">
-									<t t-esc="count_colis" />
-								</td>
-								<td ></td>
-							</tr>
+							<t t-else="">
+								<t t-foreach="o.move_ids_without_package" t-as="line">
+									<t t-set="count_without_package" t-value="0" />
+
+									<td style="border:1px solid">
+										<t t-set="count_without_package" t-value="count_without_package+1" />
+										<t t-esc="count_without_package" />
+									</td>
+									<td style="border:1px solid">
+										<t t-esc="line.product_id.name"/>
+									</td>
+									<td style="border:1px solid">
+										<t t-esc="line.product_id.default_code" />
+										
+									</td>
+									<td style="border:1px solid">
+										
+										<t t-esc="line.product_qty" />
+										<t t-esc="line.product_uom.name" />
+									</td>
+									<td style="border:1px solid">
+
+									</td>
+									
+								</t>
+							</t>
+							<t t-if="o.has_packages" name="has_packages">
+								<tr>
+									<td ></td>
+									<td ></td>
+									<td style="border:1px solid">Total Colis</td>
+									<td style="border:1px solid">
+										<t t-esc="count_colis" />
+									</td>
+									<td ></td>
+								</tr>
+
+							</t>
+
 						</tbody>
+					</table>
+					<table style="width:100%;text-align:center">
+						<td>
+							<b>
+								<u>
+									Fournisseur
+								</u>
+							</b>
+						</td>
+						<td>
+							<b>
+								<u>
+									Client
+								</u>
+							</b>
+
+						</td>
 					</table>
 				</div>
 				<div class="footer o_standard_footer" style="border-top: 1px solid black;">
