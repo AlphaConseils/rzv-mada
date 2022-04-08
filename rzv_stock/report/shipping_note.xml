@@ -64,7 +64,7 @@
 					</div>
 					<div style="width:100%;">
 						<div>
-							<span>Date</span>
+							<span>Date :</span>
 						</div>
 						<div style="  margin-left: 200px">
 							<table style="width:80%; ">
@@ -114,8 +114,8 @@
 							</tr>
 							<t t-if="o.has_packages" name="has_packages">
 								<t t-set="packages" t-value="o.move_line_ids.mapped('result_package_id')" />
+								<t t-set="count_colis" t-value="0"/>
 								<t t-foreach="packages" t-as="package">
-									<t t-set="count_colis" t-value="0"/>
 									<!-- this retrieve package name -->
 									<t t-call="rzv_stock.stock_report_get_package_name" />
 
@@ -157,8 +157,8 @@
 								</t>
 							</t>
 							<t t-else="">
+								<t t-set="count_without_package" t-value="0" />
 								<t t-foreach="o.move_ids_without_package" t-as="line">
-									<t t-set="count_without_package" t-value="0" />
 
 									<td style="border:1px solid">
 										<t t-set="count_without_package" t-value="count_without_package+1" />
@@ -251,10 +251,10 @@
 	</template>
 
 	<template id="stock_report_delivery_aggregated_move_lines_inherit">
+		<t t-set="count_line" t-value="0"/>
 		<tr t-foreach="aggregated_lines" t-as="line">
-			<t t-set="count_line" t-value="0"/>
+			<t t-set="count_line" t-value="count_line + 1 "/>
 			<td style="border:1px solid">
-				<t t-set="count_line" t-value="count_line+1"/>
 				<t t-esc="count_line"/>
 			</td>
 			<td style="border:1px solid">
